@@ -1,8 +1,6 @@
 function Login() {
   return (
     <div className="page">
-      <title>Login</title>
-
       <h1>Login Page</h1>
 
       <p>

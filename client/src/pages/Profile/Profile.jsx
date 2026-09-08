@@ -1,8 +1,6 @@
 function Profile() {
   return (
     <div className="page">
-      <title>Profile</title>
-
       <h1>Profile Page</h1>
 
       <p>

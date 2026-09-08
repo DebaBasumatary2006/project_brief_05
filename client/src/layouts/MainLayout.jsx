@@ -1,3 +1,4 @@
+import { Outlet } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 
@@ -7,13 +8,7 @@ function MainLayout() {
       <Navbar />
 
       <main className="main-content">
-        <h1>Inventory Management System</h1>
-        <p>
-          Welcome to the Inventory Management System.
-        </p>
-        <p>
-          Main content will be added in future sprints.
-        </p>
+        <Outlet />
       </main>
 
       <Footer />
