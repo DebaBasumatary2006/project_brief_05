@@ -1,11 +1,15 @@
+import PageTitle from "../../components/ui/PageTitle";
+import Card from "../../components/ui/Card";
+
 function NotFound() {
   return (
     <div className="page">
-      <h1>404 - Page Not Found</h1>
+      <PageTitle>404 - Page Not Found</PageTitle>
 
-      <p>
-        Sorry, the page you are looking for does not exist.
-      </p>
+      <Card
+        title="Page Not Found"
+        description="Sorry, the page you are looking for does not exist."
+      />
     </div>
   );
 }

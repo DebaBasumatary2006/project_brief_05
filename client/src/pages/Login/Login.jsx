@@ -1,11 +1,24 @@
+import PageTitle from "../../components/ui/PageTitle";
+import Card from "../../components/ui/Card";
+import Button from "../../components/ui/Button";
+
 function Login() {
+  const handleLogin = () => {
+    alert("Login button clicked!");
+  };
+
   return (
     <div className="page">
-      <h1>Login Page</h1>
+      <PageTitle>Login</PageTitle>
 
-      <p>
-        This is the Login page.
-      </p>
+      <Card
+        title="User Login"
+        description="Login functionality will be implemented in a future sprint."
+      >
+        <Button onClick={handleLogin}>
+          Login
+        </Button>
+      </Card>
     </div>
   );
 }
