@@ -1,16 +1,124 @@
-# React + Vite
+# Inventory Management System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Project Title
 
-Currently, two official plugins are available:
+Inventory Management System
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Team Members
 
-## React Compiler
+- Roshni Lamichhane
+- Aniket Saha
+- Bhoben Sharma
+- Deba Basumatary
+- Vivek Magar
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Project Domain
 
-## Expanding the ESLint configuration
+Business
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Project Description
+
+The Inventory Management System helps a business manage its inventory in one place.
+
+It allows users to:
+
+- Manage products
+- Create and manage categories
+- Manage suppliers
+- Track stock in and stock out
+- Record inventory transactions
+- Create and track purchase orders
+- Generate inventory reports
+- Give different access to Admin, Inventory Manager, and Staff
+
+## Project Objective
+
+To develop an efficient inventory management system that helps businesses manage products, suppliers, stock, purchase orders, and inventory transactions in one place with role-based access.
+
+## Technology Stack
+
+### Frontend
+
+- React.js
+- Vite
+- React Router DOM
+- Axios
+- HTML
+- CSS
+- JavaScript
+
+### Backend
+
+- Node.js
+- Express.js
+- CORS
+- Dotenv
+- Mongoose
+- Nodemon
+
+### Database
+
+- MongoDB
+
+### Development Tools
+
+- Visual Studio Code
+- Git
+- GitHub
+
+## Project Structure
+
+```text
+Inventory-Management-System/
+│
+├── client/
+│   ├── public/
+│   ├── src/
+│   │   ├── assets/
+│   │   │   ├── fonts/
+│   │   │   ├── icons/
+│   │   │   ├── images/
+│   │   │   └── styles/
+│   │   │       ├── global.css
+│   │   │       └── variables.css
+│   │   │
+│   │   ├── components/
+│   │   │   ├── common/
+│   │   │   │   ├── Button.jsx
+│   │   │   │   ├── Card.jsx
+│   │   │   │   └── Loader.jsx
+│   │   │   │
+│   │   │   └── layout/
+│   │   │       ├── Navbar.jsx
+│   │   │       ├── Footer.jsx
+│   │   │       └── Sidebar.jsx
+│   │   │
+│   │   ├── layouts/
+│   │   │   ├── MainLayout.jsx
+│   │   │   └── AuthLayout.jsx
+│   │   │
+│   │   ├── pages/
+│   │   │   ├── Home/
+│   │   │   ├── Login/
+│   │   │   ├── Dashboard/
+│   │   │   ├── Profile/
+│   │   │   └── NotFound/
+│   │   │
+│   │   ├── hooks/
+│   │   ├── services/
+│   │   ├── utils/
+│   │   ├── App.jsx
+│   │   └── main.jsx
+│   │
+│   └── package.json
+│
+├── server/
+│   ├── config/
+│   ├── controllers/
+│   ├── middleware/
+│   ├── models/
+│   ├── routes/
+│   ├── server.js
+│   └── package.json
+│
+└── README.md
