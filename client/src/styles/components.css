@@ -1,55 +1,13 @@
-.button {
-  background-color: #4f46e5;
-  color: white;
-  border: none;
-  padding: 10px 20px;
+input {
+  width: 100%;
+  max-width: 400px;
+  padding: 10px;
+  border: 1px solid #cbd5e1;
   border-radius: 6px;
-  cursor: pointer;
-  transition: 0.2s;
+  margin: 10px 0;
 }
 
-.button:hover {
-  opacity: 0.9;
-}
-
-.card {
-  background-color: white;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  padding: 20px;
-  width: 100%;
-  margin-bottom: 20px;
-}
-
-.card h3 {
-  margin-bottom: 10px;
-}
-
-.card-content {
-  margin-top: 15px;
-}
-
-.page-title {
-  font-weight: bold;
-}
-.active-link {
-  font-weight: bold;
-  text-decoration: underline;
-}
-.card-grid {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-@media (max-width: 1023px) {
-  .card-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 600px) {
-  .card-grid {
-    grid-template-columns: 1fr;
-  }
+input:focus {
+  outline: none;
+  border-color: #4f46e5;
 }

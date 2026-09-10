@@ -1,7 +1,6 @@
-function Button({ children, onClick, type = "button" }) {
+function Button({ children, onClick }) {
   return (
     <button
-      type={type}
       className="button"
       onClick={onClick}
     >
