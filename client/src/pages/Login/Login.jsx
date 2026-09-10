@@ -11,14 +11,16 @@ function Login() {
     <div className="page">
       <PageTitle>Login</PageTitle>
 
-      <Card
-        title="User Login"
-        description="Login functionality will be implemented in a future sprint."
-      >
-        <Button onClick={handleLogin}>
-          Login
-        </Button>
-      </Card>
+      <div className="card-grid">
+        <Card
+          title="User Login"
+          description="Login functionality will be implemented in a future sprint."
+        >
+          <Button onClick={handleLogin}>
+            Login
+          </Button>
+        </Card>
+      </div>
     </div>
   );
 }

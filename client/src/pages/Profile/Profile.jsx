@@ -11,22 +11,24 @@ function Profile() {
     <div className="page">
       <PageTitle>Profile</PageTitle>
 
-      <Card
-        title="User Profile"
-        description="Manage your profile information."
-      >
-        <p>
-          Name: Inventory User
-        </p>
+      <div className="card-grid">
+        <Card
+          title="User Profile"
+          description="Manage your profile information."
+        >
+          <p>Name: Inventory User</p>
+          <p>Role: Staff</p>
 
-        <p>
-          Role: Staff
-        </p>
+          <Button onClick={handleClick}>
+            Edit Profile
+          </Button>
+        </Card>
 
-        <Button onClick={handleClick}>
-          Edit Profile
-        </Button>
-      </Card>
+        <Card
+          title="Account Information"
+          description="View your account information."
+        />
+      </div>
     </div>
   );
 }

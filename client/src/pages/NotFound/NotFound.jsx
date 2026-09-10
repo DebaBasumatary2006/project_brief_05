@@ -6,10 +6,12 @@ function NotFound() {
     <div className="page">
       <PageTitle>404 - Page Not Found</PageTitle>
 
-      <Card
-        title="Page Not Found"
-        description="Sorry, the page you are looking for does not exist."
-      />
+      <div className="card-grid">
+        <Card
+          title="Page Not Found"
+          description="Sorry, the page you are looking for does not exist."
+        />
+      </div>
     </div>
   );
 }

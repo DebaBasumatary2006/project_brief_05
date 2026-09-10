@@ -11,14 +11,26 @@ function Home() {
     <div className="page">
       <PageTitle>Home Page</PageTitle>
 
-      <Card
-        title="Inventory Management System"
-        description="Manage products, suppliers, inventory and purchase orders in one place."
-      >
-        <Button onClick={handleClick}>
-          Get Started
-        </Button>
-      </Card>
+      <div className="card-grid">
+        <Card
+          title="Inventory Management System"
+          description="Manage products, suppliers, inventory and purchase orders in one place."
+        >
+          <Button onClick={handleClick}>
+            Get Started
+          </Button>
+        </Card>
+
+        <Card
+          title="Products"
+          description="Manage and organize your business products."
+        />
+
+        <Card
+          title="Suppliers"
+          description="Manage supplier information efficiently."
+        />
+      </div>
     </div>
   );
 }

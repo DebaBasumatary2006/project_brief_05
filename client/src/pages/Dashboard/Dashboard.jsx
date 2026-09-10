@@ -11,26 +11,37 @@ function Dashboard() {
     <div className="page">
       <PageTitle>Dashboard</PageTitle>
 
-      <Card
-        title="Inventory Overview"
-        description="View important inventory information from your dashboard."
-      >
-        <p>
-          Total Products: 0
-        </p>
+      <div className="card-grid">
+        <Card
+          title="Total Products"
+          description="Number of products in inventory."
+        >
+          <h2>0</h2>
+        </Card>
 
-        <p>
-          Total Suppliers: 0
-        </p>
+        <Card
+          title="Total Suppliers"
+          description="Number of registered suppliers."
+        >
+          <h2>0</h2>
+        </Card>
 
-        <p>
-          Pending Orders: 0
-        </p>
+        <Card
+          title="Pending Orders"
+          description="Purchase orders waiting for processing."
+        >
+          <h2>0</h2>
+        </Card>
 
-        <Button onClick={handleClick}>
-          View Inventory
-        </Button>
-      </Card>
+        <Card
+          title="Inventory"
+          description="Manage your current stock."
+        >
+          <Button onClick={handleClick}>
+            View Inventory
+          </Button>
+        </Card>
+      </div>
     </div>
   );
 }
