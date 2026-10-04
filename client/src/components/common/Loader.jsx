@@ -1,6 +1,6 @@
 function Loader() {
   return (
-    <div className="loader">
+    <div className="loader" role="status" aria-live="polite">
       Loading...
     </div>
   );

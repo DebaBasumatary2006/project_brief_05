@@ -107,6 +107,16 @@
   font-size: 13px;
 }
 
+.error-summary {
+  margin-bottom: 18px;
+  padding: 12px 14px;
+  border: 1px solid #f1b4b4;
+  border-radius: 6px;
+  background: #fff1f1;
+  color: #9f2424;
+  font-weight: 600;
+}
+
 .success-message {
   margin-bottom: 18px;
   padding: 12px 14px;

@@ -1,12 +1,12 @@
-function Welcome({ Alexander, project }) {
+function Welcome({ name, project, className = "" }) {
   return (
-    <div className="card">
-      <h2>Welcome, {Alexander}!</h2>
+    <section className={`card welcome-card ${className}`.trim()}>
+      <h2>Welcome, {name}!</h2>
 
       <p>
         You are working on: {project}
       </p>
-    </div>
+    </section>
   );
 }
 

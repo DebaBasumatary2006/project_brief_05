@@ -1,9 +1,10 @@
-function Card({ title, children }) {
+function Card({ title, description, children, className = "" }) {
   return (
-    <div className="card">
-      <h3>{title}</h3>
-      <div>{children}</div>
-    </div>
+    <article className={`card ${className}`.trim()}>
+      {title && <h3>{title}</h3>}
+      {description && <p>{description}</p>}
+      {children && <div className="card-content">{children}</div>}
+    </article>
   );
 }
 

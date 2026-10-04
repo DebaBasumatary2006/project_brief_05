@@ -1,4 +1,6 @@
 import { useState } from "react";
+import Button from "../../components/ui/Button";
+import PageTitle from "../../components/ui/PageTitle";
 import "./ProductEntry.css";
 
 const initialFormData = {
@@ -26,10 +28,15 @@ function ProductEntry() {
       [name]: value,
     }));
 
-    setErrors((previousErrors) => ({
-      ...previousErrors,
-      [name]: "",
-    }));
+    setErrors((previousErrors) => {
+      const nextErrors = { ...previousErrors, [name]: "" };
+
+      if (name === "purchasePrice") {
+        nextErrors.sellingPrice = "";
+      }
+
+      return nextErrors;
+    });
 
     setSuccessMessage("");
   };
@@ -95,13 +102,14 @@ function ProductEntry() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setSuccessMessage("");
 
     if (!validateForm()) {
       return;
     }
 
     console.log("Product submitted:", formData);
-    setSuccessMessage("Product added successfully. Inventory has been updated.");
+    setSuccessMessage("Product details captured successfully. Data is ready for backend integration.");
     setFormData(initialFormData);
     setErrors({});
   };
@@ -112,18 +120,30 @@ function ProductEntry() {
     setSuccessMessage("");
   };
 
+  const hasErrors = Object.values(errors).some(Boolean);
+
   return (
     <div className="product-entry-page">
       <div className="product-entry-container">
         <div className="heading-block">
           <p className="eyebrow">Inventory Management</p>
-          <h1>Product Entry Form</h1>
+          <PageTitle>Product Entry Form</PageTitle>
           <p className="form-description">
             Add a new product to the business inventory system and keep stock information accurate.
           </p>
         </div>
 
-        {successMessage && <div className="success-message">{successMessage}</div>}
+        {hasErrors && (
+          <div className="error-summary" role="alert">
+            Please correct the highlighted fields before submitting.
+          </div>
+        )}
+
+        {successMessage && (
+          <div className="success-message" role="status" aria-live="polite">
+            {successMessage}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} noValidate className="product-form">
           <div className="form-row">
@@ -139,8 +159,11 @@ function ProductEntry() {
                 onChange={handleChange}
                 placeholder="Enter product name"
                 className={errors.productName ? "input-error" : ""}
+                required
+                aria-invalid={Boolean(errors.productName)}
+                aria-describedby={errors.productName ? "productName-error" : undefined}
               />
-              {errors.productName && <p className="error-message">{errors.productName}</p>}
+              {errors.productName && <p id="productName-error" className="error-message">{errors.productName}</p>}
             </div>
 
             <div className="form-group">
@@ -155,8 +178,11 @@ function ProductEntry() {
                 onChange={handleChange}
                 placeholder="e.g. LAP-001"
                 className={errors.sku ? "input-error" : ""}
+                required
+                aria-invalid={Boolean(errors.sku)}
+                aria-describedby={errors.sku ? "sku-error" : undefined}
               />
-              {errors.sku && <p className="error-message">{errors.sku}</p>}
+              {errors.sku && <p id="sku-error" className="error-message">{errors.sku}</p>}
             </div>
           </div>
 
@@ -173,8 +199,11 @@ function ProductEntry() {
                 onChange={handleChange}
                 placeholder="Enter category"
                 className={errors.category ? "input-error" : ""}
+                required
+                aria-invalid={Boolean(errors.category)}
+                aria-describedby={errors.category ? "category-error" : undefined}
               />
-              {errors.category && <p className="error-message">{errors.category}</p>}
+              {errors.category && <p id="category-error" className="error-message">{errors.category}</p>}
             </div>
 
             <div className="form-group">
@@ -189,8 +218,11 @@ function ProductEntry() {
                 onChange={handleChange}
                 placeholder="Enter supplier"
                 className={errors.supplier ? "input-error" : ""}
+                required
+                aria-invalid={Boolean(errors.supplier)}
+                aria-describedby={errors.supplier ? "supplier-error" : undefined}
               />
-              {errors.supplier && <p className="error-message">{errors.supplier}</p>}
+              {errors.supplier && <p id="supplier-error" className="error-message">{errors.supplier}</p>}
             </div>
           </div>
 
@@ -209,8 +241,11 @@ function ProductEntry() {
                 min="0"
                 step="0.01"
                 className={errors.purchasePrice ? "input-error" : ""}
+                required
+                aria-invalid={Boolean(errors.purchasePrice)}
+                aria-describedby={errors.purchasePrice ? "purchasePrice-error" : undefined}
               />
-              {errors.purchasePrice && <p className="error-message">{errors.purchasePrice}</p>}
+              {errors.purchasePrice && <p id="purchasePrice-error" className="error-message">{errors.purchasePrice}</p>}
             </div>
 
             <div className="form-group">
@@ -227,8 +262,11 @@ function ProductEntry() {
                 min="0"
                 step="0.01"
                 className={errors.sellingPrice ? "input-error" : ""}
+                required
+                aria-invalid={Boolean(errors.sellingPrice)}
+                aria-describedby={errors.sellingPrice ? "sellingPrice-error" : undefined}
               />
-              {errors.sellingPrice && <p className="error-message">{errors.sellingPrice}</p>}
+              {errors.sellingPrice && <p id="sellingPrice-error" className="error-message">{errors.sellingPrice}</p>}
             </div>
           </div>
 
@@ -247,8 +285,11 @@ function ProductEntry() {
                 min="0"
                 step="1"
                 className={errors.quantity ? "input-error" : ""}
+                required
+                aria-invalid={Boolean(errors.quantity)}
+                aria-describedby={errors.quantity ? "quantity-error" : undefined}
               />
-              {errors.quantity && <p className="error-message">{errors.quantity}</p>}
+              {errors.quantity && <p id="quantity-error" className="error-message">{errors.quantity}</p>}
             </div>
 
             <div className="form-group">
@@ -265,8 +306,11 @@ function ProductEntry() {
                 min="0"
                 step="1"
                 className={errors.reorderLevel ? "input-error" : ""}
+                required
+                aria-invalid={Boolean(errors.reorderLevel)}
+                aria-describedby={errors.reorderLevel ? "reorderLevel-error" : undefined}
               />
-              {errors.reorderLevel && <p className="error-message">{errors.reorderLevel}</p>}
+              {errors.reorderLevel && <p id="reorderLevel-error" className="error-message">{errors.reorderLevel}</p>}
             </div>
           </div>
 
@@ -282,18 +326,21 @@ function ProductEntry() {
               placeholder="Add product details, use, or specifications"
               rows="5"
               className={errors.description ? "input-error" : ""}
+              required
+              aria-invalid={Boolean(errors.description)}
+              aria-describedby={errors.description ? "description-error" : undefined}
             />
-            {errors.description && <p className="error-message">{errors.description}</p>}
+            {errors.description && <p id="description-error" className="error-message">{errors.description}</p>}
           </div>
 
           <div className="form-buttons">
-            <button type="submit" className="add-button">
+            <Button type="submit" className="add-button">
               Add Product
-            </button>
+            </Button>
 
-            <button type="button" className="reset-button" onClick={handleReset}>
+            <Button type="button" className="reset-button" onClick={handleReset}>
               Reset Form
-            </button>
+            </Button>
           </div>
         </form>
       </div>

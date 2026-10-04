@@ -1,13 +1,22 @@
 {
-  "dependencies": {
-    "axios": "^1.19.0",
-    "cors": "^2.8.6",
-    "dotenv": "^17.4.2",
-    "express": "^5.2.1",
-    "mongoose": "^9.9.3",
-    "react-router-dom": "^7.18.2"
+  "name": "inventory-management-system",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Inventory Management System built with MERN stack.",
+  "scripts": {
+    "dev:client": "cd client && npm run dev",
+    "dev:server": "cd server && npm run dev",
+    "build:client": "cd client && npm run build",
+    "start:server": "cd server && npm run start",
+    "install:all": "npm install --prefix client && npm install --prefix server"
   },
-  "devDependencies": {
-    "nodemon": "^3.1.14"
-  }
+  "keywords": [
+    "inventory",
+    "mern",
+    "react",
+    "express",
+    "mongodb"
+  ],
+  "author": "Project Brief 05 Team",
+  "license": "ISC"
 }

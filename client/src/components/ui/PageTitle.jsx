@@ -1,6 +1,6 @@
-function PageTitle({ children }) {
+function PageTitle({ children, className = "" }) {
   return (
-    <h1 className="page-title">
+    <h1 className={`page-title ${className}`.trim()}>
       {children}
     </h1>
   );

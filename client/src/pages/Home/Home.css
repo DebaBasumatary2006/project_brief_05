@@ -1,0 +1,223 @@
+.inventory-home {
+  width: min(100%, 1320px);
+  margin: 0 auto;
+  padding: 42px 36px 56px;
+  color: #183338;
+}
+
+.inventory-home__header,
+.inventory-panel__heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.inventory-home__eyebrow {
+  margin: 0 0 8px;
+  color: #52716f;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.inventory-home__header .inventory-home__title {
+  margin: 0;
+  color: #183338;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 34px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1.2;
+}
+
+.inventory-home__intro {
+  margin: 8px 0 0;
+  color: #617573;
+  font-size: 14px;
+}
+
+.inventory-home__action {
+  flex: 0 0 auto;
+  padding: 11px 16px;
+  border-radius: 4px;
+  background: #176b5b;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.inventory-home__action:hover {
+  background: #105749;
+}
+
+.inventory-home__metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 32px;
+}
+
+.inventory-metric {
+  min-height: 136px;
+  padding: 18px 20px;
+  border: 1px solid #e1e9e5;
+  border-top: 3px solid #32876b;
+  background: #fff;
+}
+
+.inventory-metric--amber { border-top-color: #d78b37; }
+.inventory-metric--blue { border-top-color: #42879a; }
+.inventory-metric--rose { border-top-color: #c65c55; }
+
+.inventory-metric h3,
+.inventory-metric span {
+  display: block;
+  margin: 0;
+  color: #617573;
+  font-size: 13px;
+}
+
+.inventory-metric h3 {
+  font-weight: 500;
+}
+
+.inventory-metric .card-content {
+  margin-top: 10px;
+}
+
+.inventory-metric strong {
+  display: block;
+  margin: 10px 0 5px;
+  color: #183338;
+  font-size: 28px;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.inventory-metric span { font-size: 12px; }
+
+.inventory-home__lower {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(280px, 1fr);
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.inventory-panel {
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid #e1e9e5;
+  background: #fff;
+}
+
+.inventory-panel h2 {
+  margin: 0;
+  color: #183338;
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.inventory-panel__heading a {
+  color: #176b5b;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.inventory-table-wrap { overflow-x: auto; }
+
+.inventory-table {
+  width: 100%;
+  margin-top: 18px;
+  border-collapse: collapse;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.inventory-table th {
+  padding: 10px 12px;
+  border-bottom: 1px solid #e7eeea;
+  color: #71827f;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.inventory-table td {
+  padding: 13px 12px;
+  border-bottom: 1px solid #edf1ee;
+  color: #344c49;
+  font-size: 13px;
+}
+
+.inventory-table tbody tr:last-child td { border-bottom: 0; }
+
+.stock-status {
+  padding: 4px 8px;
+  border-radius: 3px;
+  background: #fff0dc;
+  color: #9b5b15;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.inventory-panel--activity > h2 { margin-bottom: 18px; }
+
+.activity-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.activity-list li {
+  display: grid;
+  grid-template-columns: 10px minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 11px;
+  padding: 14px 0;
+  border-top: 1px solid #edf1ee;
+}
+
+.activity-list strong {
+  color: #344c49;
+  font-size: 13px;
+}
+
+.activity-list p,
+.activity-list time {
+  margin: 3px 0 0;
+  color: #71827f;
+  font-size: 11px;
+}
+
+.activity-list time { white-space: nowrap; }
+
+.activity-dot {
+  width: 9px;
+  height: 9px;
+  margin-top: 4px;
+  border-radius: 50%;
+  background: #32876b;
+}
+
+.activity-dot--amber { background: #d78b37; }
+.activity-dot--blue { background: #42879a; }
+
+@media (max-width: 900px) {
+  .inventory-home__metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .inventory-home__lower { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+  .inventory-home { padding: 28px 16px 40px; }
+  .inventory-home__header { align-items: flex-start; flex-direction: column; gap: 18px; }
+  .inventory-home__header .inventory-home__title { font-size: 28px; }
+  .inventory-home__metrics { gap: 10px; margin-top: 22px; }
+  .inventory-metric { min-height: 122px; padding: 15px; }
+  .inventory-metric strong { font-size: 24px; }
+  .inventory-panel { padding: 16px; }
+  .inventory-panel__heading { align-items: flex-start; }
+}

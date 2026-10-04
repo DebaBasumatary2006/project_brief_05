@@ -3,6 +3,7 @@ import { useState } from "react";
 import PageTitle from "../../components/ui/PageTitle";
 import Button from "../../components/ui/Button";
 import Card from "../../components/ui/Card";
+import Welcome from "../../components/ui/Welcome";
 
 function Dashboard() {
 
@@ -11,11 +12,11 @@ function Dashboard() {
   const [loggedIn, setLoggedIn] = useState(false);
 
   const handleAddNotification = () => {
-    setCount(count + 1);
+    setCount((currentCount) => currentCount + 1);
   };
 
   const handleLoginToggle = () => {
-    setLoggedIn(!loggedIn);
+    setLoggedIn((currentStatus) => !currentStatus);
   };
 
   return (
@@ -24,6 +25,11 @@ function Dashboard() {
       <PageTitle>
         Dashboard
       </PageTitle>
+
+      <Welcome
+        name="Inventory User"
+        project="Inventory Management System"
+      />
 
       <div className="card-grid">
 
@@ -42,8 +48,9 @@ function Dashboard() {
           title="User Input"
           description="Enter your name below."
         >
-
+          <label htmlFor="dashboard-name">Your name</label>
           <input
+            id="dashboard-name"
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}

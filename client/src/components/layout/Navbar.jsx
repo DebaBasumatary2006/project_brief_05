@@ -1,11 +1,11 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 function Navbar() {
   return (
-    <nav className="navbar">
-      <div className="navbar-brand">
+    <nav className="navbar" aria-label="Main navigation">
+      <Link className="navbar-brand" to="/" aria-label="Inventory Management System home">
         Inventory Management System
-      </div>
+      </Link>
 
       <div className="navbar-menu">
         <NavLink
