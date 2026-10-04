@@ -47,7 +47,7 @@ npm run dev
 The API defaults to port 5000. Import [`server/postman/Sprint12-Product-API.postman_collection.json`](../server/postman/Sprint12-Product-API.postman_collection.json) into Postman and set its `baseUrl` collection variable to the port in use. Run requests in order so the create request can set `productId` for the later requests.
 
 ## Verification
-GET list, POST create, GET by ID, PUT update, DELETE, invalid POST, and GET-after-delete were exercised against the running Express server. Responses returned 200, 201, 400, or 404 as expected, and the request logger emitted method/URL/timestamp lines.
+GET list, POST create, GET by ID, PUT update, DELETE, invalid POST, and GET-after-delete were exercised against the running Express server using PowerShell and browser fetch. The included Postman collection was also run with Newman: all five requests completed with zero failures, including the collection-variable handoff from create to GET-by-ID. Responses returned 200, 201, 400, or 404 as expected, and the request logger emitted method/URL/timestamp lines. The Postman desktop UI was not available, so the captured request-results screenshot is from a browser-based verifier rather than Postman.
 
 ## GitHub
-Sprint 12 files are ready to be committed and pushed after final verification.
+Sprint 12 was committed and pushed to GitHub in commit `3bf4f62`.
