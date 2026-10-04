@@ -1,0 +1,58 @@
+{
+  "info": {
+    "name": "Inventory Management System - Sprint 12 Product API",
+    "description": "CRUD route/controller and middleware checks. Products are held in memory and reset when the server restarts.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5000" },
+    { "key": "productId", "value": "1" }
+  ],
+  "item": [
+    {
+      "name": "List products",
+      "request": { "method": "GET", "url": "{{baseUrl}}/api/products" }
+    },
+    {
+      "name": "Create product",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Product created', () => pm.response.to.have.status(201));",
+              "pm.collectionVariables.set('productId', pm.response.json().data.id);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"productName\": \"Canvas Tote\",\n  \"sku\": \"BAG-101\",\n  \"category\": \"Accessories\",\n  \"supplier\": \"Local Supplier\",\n  \"quantity\": 4\n}"
+        },
+        "url": "{{baseUrl}}/api/products"
+      }
+    },
+    {
+      "name": "Get product by ID",
+      "request": { "method": "GET", "url": "{{baseUrl}}/api/products/{{productId}}" }
+    },
+    {
+      "name": "Update product",
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"quantity\": 9\n}" },
+        "url": "{{baseUrl}}/api/products/{{productId}}"
+      }
+    },
+    {
+      "name": "Delete product",
+      "request": { "method": "DELETE", "url": "{{baseUrl}}/api/products/{{productId}}" }
+    }
+  ]
+}

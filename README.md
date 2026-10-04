@@ -134,6 +134,9 @@ Detailed setup and verification notes are available in [docs/sprint-4-project-sc
 ## Sprint 11: Express Backend Foundation
 The backend runs as a separate Express application with JSON parsing, CORS, environment configuration, a health endpoint, and a modular API test route. Setup instructions are in [server/README.md](server/README.md), and detailed Sprint 11 notes are in [docs/sprint-11-express-backend.md](docs/sprint-11-express-backend.md).
 
+## Sprint 12: Express Routing and Middleware
+The backend now includes in-memory product CRUD routes, controller separation, and request logging middleware. See [docs/sprint-12-express-routing-middleware.md](docs/sprint-12-express-routing-middleware.md) and the Postman collection in `server/postman/` for endpoint details and verification.
+
 ## Sprint 1 Goal
 This project foundation stage ensures the workspace is ready for development by validating:
 - required software installation
