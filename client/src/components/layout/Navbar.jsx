@@ -10,36 +10,35 @@ function Navbar() {
       <div className="navbar-menu">
         <NavLink
           to="/"
-          className={({ isActive }) =>
-            isActive ? "active-link" : ""
-          }
+          className={({ isActive }) => (isActive ? "active-link" : "")}
         >
           Home
         </NavLink>
 
         <NavLink
           to="/dashboard"
-          className={({ isActive }) =>
-            isActive ? "active-link" : ""
-          }
+          className={({ isActive }) => (isActive ? "active-link" : "")}
         >
           Dashboard
         </NavLink>
 
         <NavLink
+          to="/product-entry"
+          className={({ isActive }) => (isActive ? "active-link" : "")}
+        >
+          Product Entry
+        </NavLink>
+
+        <NavLink
           to="/profile"
-          className={({ isActive }) =>
-            isActive ? "active-link" : ""
-          }
+          className={({ isActive }) => (isActive ? "active-link" : "")}
         >
           Profile
         </NavLink>
 
         <NavLink
           to="/login"
-          className={({ isActive }) =>
-            isActive ? "active-link" : ""
-          }
+          className={({ isActive }) => (isActive ? "active-link" : "")}
         >
           Login
         </NavLink>
