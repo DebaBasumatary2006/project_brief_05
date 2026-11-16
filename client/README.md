@@ -113,7 +113,13 @@ The Dashboard demonstrates a controlled name input, a notification counter, and 
 
 ## Controlled Product Form
 
-The Product Entry page uses React state for all fields, validates inventory-specific rules before submission, displays field-level feedback, and clears data after success or reset. Submission is client-only and does not call the backend. Sprint 10 validation details are available in [../docs/sprint-10-controlled-product-form.md](../docs/sprint-10-controlled-product-form.md).
+The Product Entry page uses React state for all fields and validates inventory-specific rules before submission. It now creates and updates MongoDB records through the Product API, displays the live product list, and supports edit and confirmed delete actions. Sprint 10 form-validation details are available in [../docs/sprint-10-controlled-product-form.md](../docs/sprint-10-controlled-product-form.md).
+
+## Frontend-Backend Integration
+
+Product API calls are centralized in `src/services/productService.js`; the `useProducts` hook provides shared loading, error, and refresh state. The API base URL defaults to `http://localhost:5000/api`. To use another backend, set `VITE_API_BASE_URL` in the client environment and restart Vite.
+
+Run MongoDB and the backend (`npm run dev` from `server/`) before using the client. Then run `npm run dev` from `client/`. The backend already enables CORS for local development. Sprint 16 integration notes and the full verification flow are in [../docs/sprint-16-react-api-integration.md](../docs/sprint-16-react-api-integration.md).
 ├── client/
 │   ├── public/
 │   ├── src/

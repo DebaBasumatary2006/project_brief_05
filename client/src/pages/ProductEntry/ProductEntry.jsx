@@ -1,7 +1,16 @@
 import { useState } from "react";
 import Button from "../../components/ui/Button";
+import Loader from "../../components/common/Loader";
 import PageTitle from "../../components/ui/PageTitle";
+import useProducts from "../../hooks/useProducts";
+import {
+  createProduct,
+  deleteProduct,
+  getProductServiceErrorMessage,
+  updateProduct,
+} from "../../services/productService";
 import "./ProductEntry.css";
+import "./ProductList.css";
 
 const initialFormData = {
   productName: "",
@@ -19,6 +28,11 @@ function ProductEntry() {
   const [formData, setFormData] = useState(initialFormData);
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState("");
+  const [actionError, setActionError] = useState("");
+  const [editingProductId, setEditingProductId] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [deletingProductId, setDeletingProductId] = useState(null);
+  const { products, setProducts, isLoading, error, refresh } = useProducts();
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -39,6 +53,7 @@ function ProductEntry() {
     });
 
     setSuccessMessage("");
+    setActionError("");
   };
 
   const validateForm = () => {
@@ -100,24 +115,118 @@ function ProductEntry() {
     return Object.keys(nextErrors).length === 0;
   };
 
-  const handleSubmit = (event) => {
+  const resetForm = () => {
+    setFormData(initialFormData);
+    setErrors({});
+    setEditingProductId(null);
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setSuccessMessage("");
+    setActionError("");
 
     if (!validateForm()) {
       return;
     }
 
-    console.log("Product submitted:", formData);
-    setSuccessMessage("Product details captured successfully. Data is ready for backend integration.");
-    setFormData(initialFormData);
-    setErrors({});
+    const productData = {
+      ...formData,
+      productName: formData.productName.trim(),
+      sku: formData.sku.trim(),
+      category: formData.category.trim(),
+      supplier: formData.supplier.trim(),
+      purchasePrice: Number(formData.purchasePrice),
+      sellingPrice: Number(formData.sellingPrice),
+      quantity: Number(formData.quantity),
+      reorderLevel: Number(formData.reorderLevel),
+      description: formData.description.trim(),
+    };
+
+    setIsSubmitting(true);
+    try {
+      if (editingProductId) {
+        const updatedProduct = await updateProduct(editingProductId, productData);
+        setProducts((currentProducts) =>
+          currentProducts.map((product) =>
+            product._id === editingProductId ? updatedProduct : product,
+          ),
+        );
+        setSuccessMessage("Product updated successfully.");
+      } else {
+        const createdProduct = await createProduct(productData);
+        setProducts((currentProducts) => [createdProduct, ...currentProducts]);
+        setSuccessMessage("Product created successfully.");
+      }
+
+      resetForm();
+    } catch (requestError) {
+      setActionError(
+        getProductServiceErrorMessage(
+          requestError,
+          "Unable to save the product. Please try again.",
+        ),
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleReset = () => {
-    setFormData(initialFormData);
+    resetForm();
+    setSuccessMessage("");
+    setActionError("");
+  };
+
+  const handleEdit = (product) => {
+    setEditingProductId(product._id);
+    setFormData({
+      productName: product.productName,
+      sku: product.sku,
+      category: product.category,
+      supplier: product.supplier,
+      purchasePrice: String(product.purchasePrice),
+      sellingPrice: String(product.sellingPrice),
+      quantity: String(product.quantity),
+      reorderLevel: String(product.reorderLevel),
+      description: product.description,
+    });
     setErrors({});
     setSuccessMessage("");
+    setActionError("");
+  };
+
+  const handleDelete = async (product) => {
+    const confirmed = window.confirm(
+      `Delete "${product.productName}"? This action cannot be undone.`,
+    );
+    if (!confirmed) {
+      return;
+    }
+
+    setDeletingProductId(product._id);
+    setActionError("");
+    setSuccessMessage("");
+
+    try {
+      await deleteProduct(product._id);
+      setProducts((currentProducts) =>
+        currentProducts.filter((item) => item._id !== product._id),
+      );
+      if (editingProductId === product._id) {
+        resetForm();
+      }
+      setSuccessMessage("Product deleted successfully.");
+    } catch (requestError) {
+      setActionError(
+        getProductServiceErrorMessage(
+          requestError,
+          "Unable to delete the product. Please try again.",
+        ),
+      );
+    } finally {
+      setDeletingProductId(null);
+    }
   };
 
   const hasErrors = Object.values(errors).some(Boolean);
@@ -127,9 +236,9 @@ function ProductEntry() {
       <div className="product-entry-container">
         <div className="heading-block">
           <p className="eyebrow">Inventory Management</p>
-          <PageTitle>Product Entry Form</PageTitle>
+          <PageTitle>{editingProductId ? "Edit Product" : "Product Entry Form"}</PageTitle>
           <p className="form-description">
-            Add a new product to the business inventory system and keep stock information accurate.
+            Add products to the live inventory or update existing product records.
           </p>
         </div>
 
@@ -145,7 +254,18 @@ function ProductEntry() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} noValidate className="product-form">
+        {actionError && (
+          <div className="error-summary" role="alert">
+            {actionError}
+          </div>
+        )}
+
+        <form
+          onSubmit={handleSubmit}
+          noValidate
+          className="product-form"
+          inert={isSubmitting}
+        >
           <div className="form-row">
             <div className="form-group">
               <label htmlFor="productName">
@@ -238,7 +358,7 @@ function ProductEntry() {
                 value={formData.purchasePrice}
                 onChange={handleChange}
                 placeholder="0.00"
-                min="0"
+                min="0.01"
                 step="0.01"
                 className={errors.purchasePrice ? "input-error" : ""}
                 required
@@ -259,7 +379,7 @@ function ProductEntry() {
                 value={formData.sellingPrice}
                 onChange={handleChange}
                 placeholder="0.00"
-                min="0"
+                min="0.01"
                 step="0.01"
                 className={errors.sellingPrice ? "input-error" : ""}
                 required
@@ -334,15 +454,110 @@ function ProductEntry() {
           </div>
 
           <div className="form-buttons">
-            <Button type="submit" className="add-button">
-              Add Product
+            <Button type="submit" className="add-button" disabled={isSubmitting}>
+              {isSubmitting
+                ? "Saving..."
+                : editingProductId
+                  ? "Update Product"
+                  : "Add Product"}
             </Button>
 
             <Button type="button" className="reset-button" onClick={handleReset}>
-              Reset Form
+              {editingProductId ? "Cancel Edit" : "Reset Form"}
             </Button>
           </div>
         </form>
+
+        <section className="product-list-section" aria-labelledby="product-list-title">
+          <div className="product-list-heading">
+            <div>
+              <h2 id="product-list-title">Products in Inventory</h2>
+              <p>Records are loaded from the connected inventory API.</p>
+            </div>
+            <Button
+              type="button"
+              className="product-refresh-button"
+              onClick={refresh}
+              disabled={isLoading}
+            >
+              Refresh
+            </Button>
+          </div>
+
+          {error && (
+            <div className="product-list-error" role="alert">
+              <p>{error}</p>
+              <Button type="button" onClick={refresh} disabled={isLoading}>
+                Retry
+              </Button>
+            </div>
+          )}
+
+          {isLoading ? (
+            <Loader />
+          ) : products.length === 0 ? (
+            <p className="product-list-empty">
+              {error ? "Products could not be loaded." : "No products found. Add your first product above."}
+            </p>
+          ) : (
+            <div className="product-table-wrap">
+              <table className="product-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Product</th>
+                    <th scope="col">SKU</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Stock</th>
+                    <th scope="col">Selling Price</th>
+                    <th scope="col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {products.map((product) => (
+                    <tr key={product._id}>
+                      <td data-label="Product">{product.productName}</td>
+                      <td data-label="SKU">{product.sku}</td>
+                      <td data-label="Category">{product.category}</td>
+                      <td data-label="Stock">
+                        <span
+                          className={
+                            product.quantity <= product.reorderLevel
+                              ? "product-stock-status product-stock-status--low"
+                              : "product-stock-status"
+                          }
+                        >
+                          {product.quantity}
+                          {product.quantity <= product.reorderLevel ? " (Low)" : ""}
+                        </span>
+                      </td>
+                      <td data-label="Selling Price">
+                        {Number(product.sellingPrice).toFixed(2)}
+                      </td>
+                      <td data-label="Actions" className="product-table-actions">
+                        <Button
+                          type="button"
+                          className="product-edit-button"
+                          onClick={() => handleEdit(product)}
+                          disabled={isSubmitting || Boolean(deletingProductId)}
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          type="button"
+                          className="product-delete-button"
+                          onClick={() => handleDelete(product)}
+                          disabled={isSubmitting || Boolean(deletingProductId)}
+                        >
+                          {deletingProductId === product._id ? "Deleting..." : "Delete"}
+                        </Button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </section>
       </div>
     </div>
   );
