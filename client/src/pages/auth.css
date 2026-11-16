@@ -75,6 +75,35 @@
   color: var(--text-color);
 }
 
+.auth-form__input-wrapper {
+  position: relative;
+}
+
+.auth-form__input-wrapper input {
+  padding-right: 62px;
+}
+
+.auth-form__password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  padding: 4px;
+  transform: translateY(-50%);
+  border: 0;
+  background: transparent;
+  color: var(--primary-color);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.auth-form__password-toggle:focus-visible {
+  border-radius: 3px;
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
 .auth-form__field input[aria-invalid="true"] {
   border-color: var(--danger-color);
 }

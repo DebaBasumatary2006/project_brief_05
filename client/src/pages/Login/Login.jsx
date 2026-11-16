@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../../components/ui/Button";
 import { getApiErrorMessage } from "../../services/apiClient";
 import { loginUser } from "../../services/authService";
@@ -9,24 +9,23 @@ const initialFormData = { email: "", password: "" };
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function Login() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState(initialFormData);
   const [errors, setErrors] = useState({});
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [actionError, setActionError] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
 
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData((currentData) => ({ ...currentData, [name]: value }));
     setErrors((currentErrors) => ({ ...currentErrors, [name]: "" }));
     setActionError("");
-    setSuccessMessage("");
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setActionError("");
-    setSuccessMessage("");
 
     const email = formData.email.trim();
     const nextErrors = {};
@@ -46,9 +45,8 @@ function Login() {
 
     setIsSubmitting(true);
     try {
-      const response = await loginUser({ email, password: formData.password });
-      setSuccessMessage(`Login successful. Welcome, ${response.data.name}.`);
-      setFormData(initialFormData);
+      await loginUser({ email, password: formData.password });
+      navigate("/", { replace: true });
     } catch (requestError) {
       setActionError(
         getApiErrorMessage(requestError, "Unable to log in. Please try again."),
@@ -77,11 +75,6 @@ function Login() {
             {actionError}
           </p>
         )}
-        {successMessage && (
-          <p className="auth-message auth-message--success" role="status">
-            {successMessage}
-          </p>
-        )}
 
         <form className="auth-form" onSubmit={handleSubmit} noValidate>
           <div className="auth-form__field">
@@ -107,20 +100,35 @@ function Login() {
 
           <div className="auth-form__field">
             <label htmlFor="login-password">Password</label>
-            <input
-              id="login-password"
-              name="password"
-              type="password"
-              value={formData.password}
-              onChange={handleChange}
-              autoComplete="current-password"
-              required
-              disabled={isSubmitting}
-              aria-invalid={Boolean(errors.password)}
-              aria-describedby={
-                errors.password ? "login-password-error" : undefined
-              }
-            />
+            <div className="auth-form__input-wrapper">
+              <input
+                id="login-password"
+                name="password"
+                type={isPasswordVisible ? "text" : "password"}
+                value={formData.password}
+                onChange={handleChange}
+                autoComplete="current-password"
+                required
+                disabled={isSubmitting}
+                aria-invalid={Boolean(errors.password)}
+                aria-describedby={
+                  errors.password ? "login-password-error" : undefined
+                }
+              />
+              <button
+                className="auth-form__password-toggle"
+                type="button"
+                aria-label={
+                  isPasswordVisible ? "Hide password" : "Show password"
+                }
+                aria-pressed={isPasswordVisible}
+                aria-controls="login-password"
+                onClick={() => setIsPasswordVisible((visible) => !visible)}
+                disabled={isSubmitting}
+              >
+                {isPasswordVisible ? "Hide" : "Show"}
+              </button>
+            </div>
             {errors.password && (
               <p className="auth-form__error" id="login-password-error">
                 {errors.password}

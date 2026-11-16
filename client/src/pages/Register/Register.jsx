@@ -16,9 +16,20 @@ const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 function Register() {
   const [formData, setFormData] = useState(initialFormData);
   const [errors, setErrors] = useState({});
+  const [passwordVisibility, setPasswordVisibility] = useState({
+    password: false,
+    confirmPassword: false,
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [actionError, setActionError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+
+  const togglePasswordVisibility = (fieldName) => {
+    setPasswordVisibility((currentVisibility) => ({
+      ...currentVisibility,
+      [fieldName]: !currentVisibility[fieldName],
+    }));
+  };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -157,21 +168,38 @@ function Register() {
 
           <div className="auth-form__field">
             <label htmlFor="register-password">Password</label>
-            <input
-              id="register-password"
-              name="password"
-              type="password"
-              value={formData.password}
-              onChange={handleChange}
-              autoComplete="new-password"
-              minLength={8}
-              required
-              disabled={isSubmitting}
-              aria-invalid={Boolean(errors.password)}
-              aria-describedby={
-                errors.password ? "register-password-error" : undefined
-              }
-            />
+            <div className="auth-form__input-wrapper">
+              <input
+                id="register-password"
+                name="password"
+                type={passwordVisibility.password ? "text" : "password"}
+                value={formData.password}
+                onChange={handleChange}
+                autoComplete="new-password"
+                minLength={8}
+                required
+                disabled={isSubmitting}
+                aria-invalid={Boolean(errors.password)}
+                aria-describedby={
+                  errors.password ? "register-password-error" : undefined
+                }
+              />
+              <button
+                className="auth-form__password-toggle"
+                type="button"
+                aria-label={
+                  passwordVisibility.password
+                    ? "Hide password"
+                    : "Show password"
+                }
+                aria-pressed={passwordVisibility.password}
+                aria-controls="register-password"
+                onClick={() => togglePasswordVisibility("password")}
+                disabled={isSubmitting}
+              >
+                {passwordVisibility.password ? "Hide" : "Show"}
+              </button>
+            </div>
             {errors.password && (
               <p className="auth-form__error" id="register-password-error">
                 {errors.password}
@@ -181,22 +209,41 @@ function Register() {
 
           <div className="auth-form__field">
             <label htmlFor="register-confirm-password">Confirm Password</label>
-            <input
-              id="register-confirm-password"
-              name="confirmPassword"
-              type="password"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              autoComplete="new-password"
-              required
-              disabled={isSubmitting}
-              aria-invalid={Boolean(errors.confirmPassword)}
-              aria-describedby={
-                errors.confirmPassword
-                  ? "register-confirm-password-error"
-                  : undefined
-              }
-            />
+            <div className="auth-form__input-wrapper">
+              <input
+                id="register-confirm-password"
+                name="confirmPassword"
+                type={
+                  passwordVisibility.confirmPassword ? "text" : "password"
+                }
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                autoComplete="new-password"
+                required
+                disabled={isSubmitting}
+                aria-invalid={Boolean(errors.confirmPassword)}
+                aria-describedby={
+                  errors.confirmPassword
+                    ? "register-confirm-password-error"
+                    : undefined
+                }
+              />
+              <button
+                className="auth-form__password-toggle"
+                type="button"
+                aria-label={
+                  passwordVisibility.confirmPassword
+                    ? "Hide confirm password"
+                    : "Show confirm password"
+                }
+                aria-pressed={passwordVisibility.confirmPassword}
+                aria-controls="register-confirm-password"
+                onClick={() => togglePasswordVisibility("confirmPassword")}
+                disabled={isSubmitting}
+              >
+                {passwordVisibility.confirmPassword ? "Hide" : "Show"}
+              </button>
+            </div>
             {errors.confirmPassword && (
               <p className="auth-form__error" id="register-confirm-password-error">
                 {errors.confirmPassword}

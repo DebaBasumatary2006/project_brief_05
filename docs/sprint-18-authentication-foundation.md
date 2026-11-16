@@ -21,11 +21,11 @@ The Postman collection is `server/postman/Sprint18-Authentication.postman_collec
 
 ## React pages
 
-- `/register` provides controlled Name, Email, Password, and Confirm Password fields, client-side validation, loading and feedback states, and a React Router link to Login.
-- `/login` provides controlled Email and Password fields, request/error/success states, and a React Router link to Register.
+- `/register` provides controlled Name, Email, Password, and Confirm Password fields, independent password visibility toggles, client-side validation, loading and feedback states, and a React Router link to Login.
+- `/login` provides a controlled Email field, a password visibility toggle, and navigates to Home after the API verifies valid credentials; a React Router link leads to Register.
 - Both pages call the API through `client/src/services/authService.js` and share the responsive styles in `client/src/pages/auth.css`.
 
-Login displays the successful response but does not store a session or authorize the user. This deliberately matches the Sprint 18 boundary: persistent authentication and protected routes belong to a subsequent sprint.
+Successful login only navigates to Home; it does not store a session or authorize the user. This deliberately matches the Sprint 18 boundary: persistent authentication and protected routes belong to a subsequent sprint.
 
 ## Run and verify
 
