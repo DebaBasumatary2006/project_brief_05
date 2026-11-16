@@ -1,0 +1,119 @@
+{
+  "info": {
+    "name": "Inventory Management System - Sprint 17 Category API",
+    "description": "MongoDB-backed category CRUD lifecycle. Set baseUrl and run requests in order.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5000" },
+    { "key": "categoryId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Create category",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Category is created', () => pm.response.to.have.status(201));",
+              "pm.collectionVariables.set('categoryId', pm.response.json().data._id);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Office Supplies {{$timestamp}}\",\n  \"description\": \"Paper, pens, and other office essentials.\",\n  \"isActive\": true\n}"
+        },
+        "url": "{{baseUrl}}/api/categories"
+      }
+    },
+    {
+      "name": "List categories",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Categories are listed', () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/categories"
+      }
+    },
+    {
+      "name": "Get category by ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Category is retrieved', () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/categories/{{categoryId}}"
+      }
+    },
+    {
+      "name": "Update category",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Category is updated', () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"description\": \"Updated office products and supplies.\",\n  \"isActive\": false\n}"
+        },
+        "url": "{{baseUrl}}/api/categories/{{categoryId}}"
+      }
+    },
+    {
+      "name": "Delete category",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Category is deleted', () => pm.response.to.have.status(200));",
+              "pm.collectionVariables.unset('categoryId');"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "url": "{{baseUrl}}/api/categories/{{categoryId}}"
+      }
+    }
+  ]
+}

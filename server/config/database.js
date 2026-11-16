@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
+const Category = require("../models/Category");
 const Product = require("../models/Product");
 
-const COLLECTION_NAME = Product.collection.name;
+const COLLECTION_NAMES = [Product.collection.name, Category.collection.name];
 
 const connectDB = async () => {
   const uri = process.env.MONGODB_URI;
@@ -15,13 +16,15 @@ const connectDB = async () => {
     `MongoDB connected successfully: ${connection.connection.host}/${connection.connection.name}`,
   );
 
-  const collections = await connection.connection.db
-    .listCollections({ name: COLLECTION_NAME }, { nameOnly: true })
-    .toArray();
+  for (const collectionName of COLLECTION_NAMES) {
+    const collections = await connection.connection.db
+      .listCollections({ name: collectionName }, { nameOnly: true })
+      .toArray();
 
-  if (collections.length === 0) {
-    await connection.connection.db.createCollection(COLLECTION_NAME);
-    console.log(`MongoDB collection "${COLLECTION_NAME}" created.`);
+    if (collections.length === 0) {
+      await connection.connection.db.createCollection(collectionName);
+      console.log(`MongoDB collection "${collectionName}" created.`);
+    }
   }
 
   return connection;

@@ -4,6 +4,29 @@
   border-top: 1px solid var(--border-color);
 }
 
+.product-entry-page .form-group select {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid var(--border-color, #d5dce1);
+  border-radius: 5px;
+  background: #fff;
+  color: var(--text-color);
+  font: inherit;
+}
+
+.product-entry-page .form-group select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(23, 26, 28, 0.12);
+}
+
+.product-category-hint {
+  margin: 0;
+  color: var(--muted-color, #64748b);
+  font-size: 12px;
+}
+
 .product-list-heading {
   display: flex;
   justify-content: space-between;

@@ -4,6 +4,7 @@ import Dashboard from "../pages/Dashboard/Dashboard";
 import Login from "../pages/Login/Login";
 import Profile from "../pages/Profile/Profile";
 import ProductEntry from "../pages/ProductEntry/ProductEntry";
+import Categories from "../pages/Categories/Categories";
 import NotFound from "../pages/NotFound/NotFound";
 import MainLayout from "../layouts/MainLayout";
 
@@ -16,6 +17,7 @@ function AppRoutes() {
         <Route path="/login" element={<Login />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/product-entry" element={<ProductEntry />} />
+        <Route path="/categories" element={<Categories />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

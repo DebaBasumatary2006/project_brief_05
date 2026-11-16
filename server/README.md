@@ -10,7 +10,7 @@ npm install
 
 Copy `.env.example` to `.env` before starting the server. Set `MONGODB_URI` to your MongoDB connection string; the example points to a local MongoDB Community Server. Keep `.env` private and never commit it. The server requires MongoDB to be available before it starts listening.
 
-The backend connects to the `inventory-management` database and creates the initial `products` collection if it does not exist. Product CRUD now uses the Mongoose `Product` model and persists records in MongoDB.
+The backend connects to the `inventory-management` database and creates the `products` and `categories` collections if they do not exist. Product and category CRUD use separate Mongoose models and persist records in MongoDB.
 
 ## Run
 
@@ -47,6 +47,20 @@ The MongoDB-backed CRUD endpoints are mounted at `/api/products`:
 
 Invalid IDs and model validation errors return `400`; missing products return `404`; duplicate SKUs return `409`; unexpected database errors return a generic `500` response. Import `postman/Sprint15-Product-API.postman_collection.json`, set its `baseUrl` variable, and run requests in order to exercise the CRUD lifecycle.
 
+## Category API
+
+The category CRUD endpoints are mounted at `/api/categories`:
+
+| Method | Endpoint | Purpose |
+| --- | --- | --- |
+| `POST` | `/api/categories` | Create a category; returns `201` |
+| `GET` | `/api/categories` | List categories; returns `200` and a count |
+| `GET` | `/api/categories/:id` | Retrieve one category |
+| `PUT` | `/api/categories/:id` | Update supplied category fields |
+| `DELETE` | `/api/categories/:id` | Delete a category |
+
+Category names must be unique; duplicate names return `409`. Invalid IDs and model validation errors return `400`, missing categories return `404`, and unexpected database errors return a generic `500` response. Import `postman/Sprint17-Category-API.postman_collection.json`, set `baseUrl`, and run requests in order to exercise the category CRUD lifecycle.
+
 ## Structure
 
 ```text
@@ -54,18 +68,22 @@ server/
 ├── config/
 │   └── database.js
 ├── controllers/
+│   ├── categoryController.js
 │   ├── productController.js
 │   └── testController.js
 ├── middleware/
 │   ├── errorHandler.js
 │   └── requestLogger.js
 ├── models/
+│   ├── Category.js
 │   └── Product.js
 ├── postman/
+│   ├── Sprint17-Category-API.postman_collection.json
 │   ├── Sprint15-Product-API.postman_collection.json
 │   └── Sprint12-Product-API.postman_collection.json
 ├── public/
 ├── routes/
+│   ├── categoryRoutes.js
 │   ├── productRoutes.js
 │   └── testRoutes.js
 ├── services/
@@ -79,7 +97,7 @@ server/
 └── .env.example
 ```
 
-`app.js` configures Express middleware, mounts routes, and maps request/model errors to JSON responses. `server.js` loads environment variables, connects to MongoDB, and only then starts listening.
+`app.js` configures Express middleware, mounts the Product and Category routes, and maps request/model errors to JSON responses. `server.js` loads environment variables, connects to MongoDB, and only then starts listening.
 
 ## Product Model
 

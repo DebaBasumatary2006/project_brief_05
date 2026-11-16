@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 
 const productRoutes = require("./routes/productRoutes");
+const categoryRoutes = require("./routes/categoryRoutes");
 const errorHandler = require("./middleware/errorHandler");
 const requestLogger = require("./middleware/requestLogger");
 const testRoutes = require("./routes/testRoutes");
@@ -22,6 +23,7 @@ app.get("/", (req, res) => {
 
 app.use("/api", testRoutes);
 app.use("/api/products", productRoutes);
+app.use("/api/categories", categoryRoutes);
 app.use(errorHandler);
 
 module.exports = app;

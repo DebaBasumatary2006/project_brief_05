@@ -2,6 +2,7 @@ import { useState } from "react";
 import Button from "../../components/ui/Button";
 import Loader from "../../components/common/Loader";
 import PageTitle from "../../components/ui/PageTitle";
+import useCategories from "../../hooks/useCategories";
 import useProducts from "../../hooks/useProducts";
 import {
   createProduct,
@@ -33,6 +34,12 @@ function ProductEntry() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [deletingProductId, setDeletingProductId] = useState(null);
   const { products, setProducts, isLoading, error, refresh } = useProducts();
+  const {
+    categories,
+    isLoading: isCategoriesLoading,
+    error: categoriesError,
+  } = useCategories();
+  const availableCategories = categories.filter((category) => category.isActive);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -311,19 +318,55 @@ function ProductEntry() {
               <label htmlFor="category">
                 Category <span>*</span>
               </label>
-              <input
-                type="text"
+              <select
                 id="category"
                 name="category"
                 value={formData.category}
                 onChange={handleChange}
-                placeholder="Enter category"
                 className={errors.category ? "input-error" : ""}
                 required
+                disabled={isCategoriesLoading}
                 aria-invalid={Boolean(errors.category)}
-                aria-describedby={errors.category ? "category-error" : undefined}
-              />
+                aria-describedby={
+                  errors.category
+                    ? "category-error"
+                    : categoriesError
+                      ? "category-load-error"
+                      : undefined
+                }
+              >
+                <option value="">
+                  {isCategoriesLoading
+                    ? "Loading categories..."
+                    : "Choose a category"}
+                </option>
+                {availableCategories.map((category) => (
+                  <option key={category._id} value={category.name}>
+                    {category.name}
+                  </option>
+                ))}
+                {formData.category &&
+                  !availableCategories.some(
+                    (category) => category.name === formData.category,
+                  ) && (
+                    <option value={formData.category}>
+                      {formData.category} (existing product category)
+                    </option>
+                  )}
+              </select>
               {errors.category && <p id="category-error" className="error-message">{errors.category}</p>}
+              {categoriesError && (
+                <p id="category-load-error" className="error-message" role="alert">
+                  {categoriesError}
+                </p>
+              )}
+              {!isCategoriesLoading &&
+                !categoriesError &&
+                availableCategories.length === 0 && (
+                  <p className="product-category-hint">
+                    No active categories. Add one from the Categories page.
+                  </p>
+                )}
             </div>
 
             <div className="form-group">

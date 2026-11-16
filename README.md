@@ -149,6 +149,9 @@ The product API now uses the Sprint 14 Mongoose model for persistent create, lis
 ## Sprint 16: React and REST API Integration
 The React client now uses the Sprint 15 Product API to load inventory, create products, edit records, and delete them after confirmation. The product service centralizes API calls, while the interface provides loading, error, and success states. See [docs/sprint-16-react-api-integration.md](docs/sprint-16-react-api-integration.md) for API configuration and the end-to-end verification steps.
 
+## Sprint 17: Category CRUD Module
+The Inventory Management System now includes a MongoDB-backed Category API and a React Categories page, using the same modular CRUD architecture as Products. Product Entry uses active categories from the Category API. See [docs/sprint-17-category-crud-module.md](docs/sprint-17-category-crud-module.md) for the model, endpoints, setup, and verification.
+
 ## Sprint 1 Goal
 This project foundation stage ensures the workspace is ready for development by validating:
 - required software installation
