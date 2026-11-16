@@ -59,6 +59,7 @@ server/
 ├── middleware/
 │   └── requestLogger.js
 ├── models/
+│   └── Product.js
 ├── postman/
 │   └── Sprint12-Product-API.postman_collection.json
 ├── public/
@@ -77,3 +78,7 @@ server/
 ```
 
 `app.js` configures Express middleware and mounts routes. `server.js` loads environment variables, connects to MongoDB, and only then starts listening.
+
+## Product Model
+
+Sprint 14 defines the Mongoose Product schema and model in `models/Product.js`, mapped to the `products` collection. It validates the fields used by the Product Entry form; database-backed CRUD is deferred to a later sprint. Run `npm test` from this directory to verify the model validations.

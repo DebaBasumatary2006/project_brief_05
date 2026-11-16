@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
+const Product = require("../models/Product");
 
-const COLLECTION_NAME = "products";
+const COLLECTION_NAME = Product.collection.name;
 
 const connectDB = async () => {
   const uri = process.env.MONGODB_URI;

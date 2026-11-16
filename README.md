@@ -140,6 +140,9 @@ The backend now includes in-memory product CRUD routes, controller separation, a
 ## Sprint 13: MongoDB Setup and Backend Database Connection
 The backend now connects to MongoDB through Mongoose using the private `MONGODB_URI` environment variable and ensures the initial `products` collection exists. Product CRUD remains in memory for this sprint. See [docs/sprint-13-mongodb-connection.md](docs/sprint-13-mongodb-connection.md) for setup and verification instructions.
 
+## Sprint 14: Mongoose Schemas and Models
+The backend now defines a validated Product schema and model mapped to the `products` collection. The model matches the Product Entry form, and focused validation tests run with `npm test` from `server/`. Database-backed CRUD remains for a later sprint. See [docs/sprint-14-mongoose-models.md](docs/sprint-14-mongoose-models.md) for the field table and schema/model explanation.
+
 ## Sprint 1 Goal
 This project foundation stage ensures the workspace is ready for development by validating:
 - required software installation
