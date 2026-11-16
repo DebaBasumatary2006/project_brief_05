@@ -7,16 +7,16 @@ const errorHandler = (error, req, res, next) => {
 
   if (error.code === 11000) {
     const duplicateField = Object.keys(error.keyPattern || error.keyValue || {})[0];
-    if (duplicateField === "name") {
-      return res.status(409).json({
-        success: false,
-        message: "A category with this name already exists.",
-      });
-    }
-
+    const duplicateMessages = {
+      email: "An account with this email already exists.",
+      name: "A category with this name already exists.",
+      sku: "A product with this SKU already exists.",
+    };
     return res.status(409).json({
       success: false,
-      message: "A product with this SKU already exists.",
+      message:
+        duplicateMessages[duplicateField] ||
+        "A record with this value already exists.",
     });
   }
 

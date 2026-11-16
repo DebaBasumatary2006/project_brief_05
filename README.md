@@ -152,6 +152,9 @@ The React client now uses the Sprint 15 Product API to load inventory, create pr
 ## Sprint 17: Category CRUD Module
 The Inventory Management System now includes a MongoDB-backed Category API and a React Categories page, using the same modular CRUD architecture as Products. Product Entry uses active categories from the Category API. See [docs/sprint-17-category-crud-module.md](docs/sprint-17-category-crud-module.md) for the model, endpoints, setup, and verification.
 
+## Sprint 18: Authentication Foundation
+The application now supports account registration and login with a MongoDB User model, bcrypt password hashing, authentication endpoints, and linked React forms. JWTs, persisted sessions, and protected routes remain scoped to a later sprint. See [docs/sprint-18-authentication-foundation.md](docs/sprint-18-authentication-foundation.md) for setup, API details, and verification.
+
 ## Sprint 1 Goal
 This project foundation stage ensures the workspace is ready for development by validating:
 - required software installation

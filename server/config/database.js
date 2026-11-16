@@ -1,8 +1,13 @@
 const mongoose = require("mongoose");
 const Category = require("../models/Category");
 const Product = require("../models/Product");
+const User = require("../models/User");
 
-const COLLECTION_NAMES = [Product.collection.name, Category.collection.name];
+const COLLECTION_NAMES = [
+  Product.collection.name,
+  Category.collection.name,
+  User.collection.name,
+];
 
 const connectDB = async () => {
   const uri = process.env.MONGODB_URI;

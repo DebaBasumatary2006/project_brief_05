@@ -10,7 +10,7 @@ npm install
 
 Copy `.env.example` to `.env` before starting the server. Set `MONGODB_URI` to your MongoDB connection string; the example points to a local MongoDB Community Server. Keep `.env` private and never commit it. The server requires MongoDB to be available before it starts listening.
 
-The backend connects to the `inventory-management` database and creates the `products` and `categories` collections if they do not exist. Product and category CRUD use separate Mongoose models and persist records in MongoDB.
+The backend connects to the `inventory-management` database and creates the `products`, `categories`, and `users` collections if they do not exist. Product and category CRUD use separate Mongoose models and persist records in MongoDB.
 
 ## Run
 
@@ -61,6 +61,17 @@ The category CRUD endpoints are mounted at `/api/categories`:
 
 Category names must be unique; duplicate names return `409`. Invalid IDs and model validation errors return `400`, missing categories return `404`, and unexpected database errors return a generic `500` response. Import `postman/Sprint17-Category-API.postman_collection.json`, set `baseUrl`, and run requests in order to exercise the category CRUD lifecycle.
 
+## Authentication API
+
+The authentication foundation is mounted at `/api/auth`:
+
+| Method | Endpoint | Purpose |
+| --- | --- | --- |
+| `POST` | `/api/auth/register` | Validate account details, hash the password with bcrypt, and create a user; returns `201` |
+| `POST` | `/api/auth/login` | Verify an email and password against the stored bcrypt hash; returns `200` |
+
+Emails are trimmed and stored in lowercase with a unique index. Duplicate registrations return `409`; invalid registration fields return `400`; missing login fields return `400`; and invalid credentials return the same `401` response. The password is excluded from default User queries and never returned in API responses. This sprint does not issue JWTs or persist login state; those are reserved for a later sprint. Import `postman/Sprint18-Authentication.postman_collection.json` and set a local test password before running the collection.
+
 ## Structure
 
 ```text
@@ -68,6 +79,7 @@ server/
 ├── config/
 │   └── database.js
 ├── controllers/
+│   ├── authController.js
 │   ├── categoryController.js
 │   ├── productController.js
 │   └── testController.js
@@ -76,13 +88,16 @@ server/
 │   └── requestLogger.js
 ├── models/
 │   ├── Category.js
-│   └── Product.js
+│   ├── Product.js
+│   └── User.js
 ├── postman/
+│   ├── Sprint18-Authentication.postman_collection.json
 │   ├── Sprint17-Category-API.postman_collection.json
 │   ├── Sprint15-Product-API.postman_collection.json
 │   └── Sprint12-Product-API.postman_collection.json
 ├── public/
 ├── routes/
+│   ├── authRoutes.js
 │   ├── categoryRoutes.js
 │   ├── productRoutes.js
 │   └── testRoutes.js
@@ -97,7 +112,7 @@ server/
 └── .env.example
 ```
 
-`app.js` configures Express middleware, mounts the Product and Category routes, and maps request/model errors to JSON responses. `server.js` loads environment variables, connects to MongoDB, and only then starts listening.
+`app.js` configures Express middleware, mounts the Product, Category, and Auth routes, and maps request/model errors to JSON responses. `server.js` loads environment variables, connects to MongoDB, and only then starts listening.
 
 ## Product Model
 
