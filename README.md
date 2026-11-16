@@ -143,6 +143,9 @@ The backend now connects to MongoDB through Mongoose using the private `MONGODB_
 ## Sprint 14: Mongoose Schemas and Models
 The backend now defines a validated Product schema and model mapped to the `products` collection. The model matches the Product Entry form, and focused validation tests run with `npm test` from `server/`. Database-backed CRUD remains for a later sprint. See [docs/sprint-14-mongoose-models.md](docs/sprint-14-mongoose-models.md) for the field table and schema/model explanation.
 
+## Sprint 15: MongoDB Product CRUD API
+The product API now uses the Sprint 14 Mongoose model for persistent create, list, retrieve-by-ID, update, and delete operations. Invalid IDs and product validation errors return controlled client errors, missing products return 404, duplicate SKUs return 409, and unexpected database failures return a generic 500 response. See [docs/sprint-15-mongodb-product-crud.md](docs/sprint-15-mongodb-product-crud.md) for setup, endpoint details, tests, and the Postman collection.
+
 ## Sprint 1 Goal
 This project foundation stage ensures the workspace is ready for development by validating:
 - required software installation

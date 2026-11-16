@@ -1,16 +1,39 @@
-let products = [];
-let nextProductId = 1;
+const mongoose = require("mongoose");
+const Product = require("../models/Product");
 
-const listProducts = (req, res) => {
-  res.status(200).json({
+const editableFields = new Set(
+  Object.keys(Product.schema.paths).filter(
+    (field) => !["_id", "__v", "createdAt", "updatedAt"].includes(field),
+  ),
+);
+
+const isRequestObject = (value) =>
+  value !== null && typeof value === "object" && !Array.isArray(value);
+
+const validateProductId = (id, res) => {
+  if (mongoose.isObjectIdOrHexString(id)) {
+    return true;
+  }
+
+  res.status(400).json({ success: false, message: "Invalid product ID." });
+  return false;
+};
+
+const listProducts = async (req, res) => {
+  const products = await Product.find();
+  return res.status(200).json({
     success: true,
     count: products.length,
     data: products,
   });
 };
 
-const getProductById = (req, res) => {
-  const product = products.find((item) => item.id === req.params.id);
+const getProductById = async (req, res) => {
+  if (!validateProductId(req.params.id, res)) {
+    return;
+  }
+
+  const product = await Product.findById(req.params.id);
 
   if (!product) {
     return res.status(404).json({
@@ -22,72 +45,77 @@ const getProductById = (req, res) => {
   return res.status(200).json({ success: true, data: product });
 };
 
-const createProduct = (req, res) => {
-  const { productName, sku } = req.body || {};
-
-  if (
-    typeof productName !== "string" ||
-    !productName.trim() ||
-    typeof sku !== "string" ||
-    !sku.trim()
-  ) {
+const createProduct = async (req, res) => {
+  if (!isRequestObject(req.body)) {
     return res.status(400).json({
       success: false,
-      message: "Product name and SKU are required.",
+      message: "A product object is required in the request body.",
     });
   }
 
-  const product = {
-    ...req.body,
-    id: String(nextProductId++),
-    productName: productName.trim(),
-    sku: sku.trim(),
-  };
-
-  products.push(product);
-  return res.status(201).json({ success: true, data: product });
+  const product = await Product.create(req.body);
+  return res.status(201).json({
+    success: true,
+    message: "Product created successfully.",
+    data: product,
+  });
 };
 
-const updateProduct = (req, res) => {
-  const productIndex = products.findIndex((item) => item.id === req.params.id);
+const updateProduct = async (req, res) => {
+  if (!validateProductId(req.params.id, res)) {
+    return;
+  }
 
-  if (productIndex === -1) {
+  if (!isRequestObject(req.body) || Object.keys(req.body).length === 0) {
+    return res.status(400).json({
+      success: false,
+      message: "Updated product fields are required in the request body.",
+    });
+  }
+
+  const unsupportedFields = Object.keys(req.body).filter(
+    (field) => !editableFields.has(field),
+  );
+  if (unsupportedFields.length > 0) {
+    return res.status(400).json({
+      success: false,
+      message: `Unsupported product field(s): ${unsupportedFields.join(", ")}.`,
+    });
+  }
+
+  const product = await Product.findById(req.params.id);
+
+  if (!product) {
     return res.status(404).json({
       success: false,
       message: `Product ${req.params.id} was not found.`,
     });
   }
 
-  const currentProduct = products[productIndex];
-  const updatedProduct = { ...currentProduct, ...(req.body || {}), id: currentProduct.id };
-
-  if (typeof updatedProduct.productName !== "string" || !updatedProduct.productName.trim()) {
-    return res.status(400).json({ success: false, message: "Product name cannot be empty." });
-  }
-
-  if (typeof updatedProduct.sku !== "string" || !updatedProduct.sku.trim()) {
-    return res.status(400).json({ success: false, message: "SKU cannot be empty." });
-  }
-
-  updatedProduct.productName = updatedProduct.productName.trim();
-  updatedProduct.sku = updatedProduct.sku.trim();
-  products[productIndex] = updatedProduct;
-
+  product.set(req.body);
+  const updatedProduct = await product.save();
   return res.status(200).json({ success: true, data: updatedProduct });
 };
 
-const deleteProduct = (req, res) => {
-  const productIndex = products.findIndex((item) => item.id === req.params.id);
+const deleteProduct = async (req, res) => {
+  if (!validateProductId(req.params.id, res)) {
+    return;
+  }
 
-  if (productIndex === -1) {
+  const product = await Product.findByIdAndDelete(req.params.id);
+
+  if (!product) {
     return res.status(404).json({
       success: false,
       message: `Product ${req.params.id} was not found.`,
     });
   }
 
-  const [deletedProduct] = products.splice(productIndex, 1);
-  return res.status(200).json({ success: true, data: deletedProduct });
+  return res.status(200).json({
+    success: true,
+    message: "Product deleted successfully.",
+    data: product,
+  });
 };
 
 module.exports = {
