@@ -137,6 +137,9 @@ The backend runs as a separate Express application with JSON parsing, CORS, envi
 ## Sprint 12: Express Routing and Middleware
 The backend now includes in-memory product CRUD routes, controller separation, and request logging middleware. See [docs/sprint-12-express-routing-middleware.md](docs/sprint-12-express-routing-middleware.md) and the Postman collection in `server/postman/` for endpoint details and verification.
 
+## Sprint 13: MongoDB Setup and Backend Database Connection
+The backend now connects to MongoDB through Mongoose using the private `MONGODB_URI` environment variable and ensures the initial `products` collection exists. Product CRUD remains in memory for this sprint. See [docs/sprint-13-mongodb-connection.md](docs/sprint-13-mongodb-connection.md) for setup and verification instructions.
+
 ## Sprint 1 Goal
 This project foundation stage ensures the workspace is ready for development by validating:
 - required software installation

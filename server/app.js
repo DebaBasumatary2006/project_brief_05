@@ -1,12 +1,9 @@
 const express = require("express");
 const cors = require("cors");
-const dotenv = require("dotenv");
 
 const productRoutes = require("./routes/productRoutes");
 const requestLogger = require("./middleware/requestLogger");
 const testRoutes = require("./routes/testRoutes");
-
-dotenv.config();
 
 const app = express();
 

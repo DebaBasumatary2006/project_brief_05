@@ -8,7 +8,9 @@ Install dependencies from this directory:
 npm install
 ```
 
-Copy `.env.example` to `.env` if you need to change the port or prepare the MongoDB URI for a later sprint. The current Sprint 11 server does not require MongoDB to start.
+Copy `.env.example` to `.env` before starting the server. Set `MONGODB_URI` to your MongoDB connection string; the example points to a local MongoDB Community Server. Keep `.env` private and never commit it. The server requires MongoDB to be available before it starts listening.
+
+The backend connects to the `inventory-management` database and creates the initial `products` collection if it does not exist. Sprint 12 product routes still use in-memory data; database CRUD is not part of this sprint.
 
 ## Run
 
@@ -50,7 +52,7 @@ Import `postman/Sprint12-Product-API.postman_collection.json` to test the reques
 ```text
 server/
 ├── config/
-│   └── db.js
+│   └── database.js
 ├── controllers/
 │   ├── productController.js
 │   └── testController.js
@@ -74,4 +76,4 @@ server/
 └── .env.example
 ```
 
-`app.js` configures Express middleware and mounts routes. `server.js` starts listening. The database connection helper is present for later integration and is not invoked by this foundation server.
+`app.js` configures Express middleware and mounts routes. `server.js` loads environment variables, connects to MongoDB, and only then starts listening.
